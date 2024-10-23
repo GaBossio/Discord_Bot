@@ -1,9 +1,9 @@
 import nextcord as discord
 from nextcord import Interaction, Member, SlashOption
 from nextcord.ext import commands
-import asyncio
 
 from keys import TEST_GUILD_ID
+
 
 class Test(commands.Cog):
     def __init__(self, client):
@@ -23,6 +23,7 @@ class Test(commands.Cog):
     )
     async def test(self, interaction: Interaction, member: Member = SlashOption(description="Select a member")):
         await interaction.response.send_message(f'Test command working! Member: {member.name}', ephemeral=True)
+
 
 def setup(client):
     client.add_cog(Test(client))

@@ -1,5 +1,5 @@
-import nextcord as discord
 from nextcord.ext import commands
+
 
 class Common(commands.Cog):
     def __init__(self, client):
@@ -40,6 +40,8 @@ class Common(commands.Cog):
             await ctx.send(f'There are {member_count} members in {voice_channel.name}.')
         else:
             await ctx.send('You are not in a voice channel.')
+
+
 
 def setup(client):
     client.add_cog(Common(client))

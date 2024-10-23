@@ -1,0 +1,32 @@
+{
+  "poll_responses": {
+    "call": [
+      "Convoco al concejo para infundir luz en el camino incierto",
+      "El tiempo de la deliberación ha llegado",
+      "Que los ecos de nuestros ancestros guíen nuestras decisiones",
+      "Llamo a las sombras para que presencien este momento",
+      "Invoco la sabiduría de aquellos iluminados que componen el consejo"
+    ],
+    "mute_yes": [
+      "Se ha erradicado la fruta podrida, para evitar que infecte la fruta sana",
+      "La mala hierba fue cortada.",
+      "A aquel que osa perturbar las aguas calmadas de nuestro pueblo, MUERTE!",
+      "Los que han caído en la oscuridad no conocerán la luz otra vez",
+      "Los enemigos del culto han sido silenciados, el camino está despejado"
+    ],
+    "mute_no": [
+      "Bienaventurado aquel que encuentra el perdón ante el juicio del consejo",
+      "La redención ha sido otorgada por los sabios del consejo",
+      "Aún hay esperanza en la penumbra, el perdón es un camino",
+      "Que la misericordia prevalezca sobre el juicio",
+      "Las puertas de la absolución permanecen abiertas para quienes lo deseen"
+    ],
+    "mute_neutral": [
+      "No se alcanzó la cantidad de votos del concejo, la decisión queda en suspenso",
+      "Las voces de los ancianos no fueron escuchadas, debemos volver a convocar",
+      "El eco de la decisión aún resuena en la oscuridad, aguardemos más tiempo",
+      "No hay consenso entre los fieles, el camino permanece incierto",
+      "La votación ha sido insuficiente; quizás los dioses aún no están listos"
+    ]
+  }
+}
