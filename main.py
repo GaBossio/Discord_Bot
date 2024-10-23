@@ -1,7 +1,6 @@
 import nextcord as discord
 from nextcord.ext import commands
 import os
-import asyncio
 
 # Import keys
 from keys import DISCORD_TOKEN, OWNER_ID
@@ -20,12 +19,6 @@ async def on_ready():
     print('Bot is ready.')
     print('-------------------------------------------')
 
-async def load_cogs():
-    print('debug: Loading cogs...')
-    for filename in os.listdir('./cogs'):
-        if filename.endswith('.py'):
-            bot.load_extension(f'cogs.{filename[:-3]}')
-            print(f'Loaded cog: {filename[:-3]}')
 
 # Comando para apagar el bot (solo el dueño puede usarlo)
 @bot.command()
@@ -34,11 +27,15 @@ async def shutdown(ctx):
     await ctx.send("Shutting down the bot. Goodbye!")
     await bot.close()
 
-async def main():
-    print('debug: Starting bot...')
-    await load_cogs()  # Cargar los cogs
-    await bot.start(DISCORD_TOKEN)  # Iniciar el bot
+initial_extensions = []
 
-# Asegurarse de que el bot realmente se ejecute
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        initial_extensions.append(f'cogs.{filename[:-3]}')
+        print(f'Loaded cog: {filename[:-3]}')
+
 if __name__ == '__main__':
-    asyncio.run(main())
+    for extension in initial_extensions:
+        bot.load_extension(extension)
+
+bot.run(DISCORD_TOKEN)

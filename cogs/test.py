@@ -24,5 +24,5 @@ class Test(commands.Cog):
     async def test(self, interaction: Interaction, member: Member = SlashOption(description="Select a member")):
         await interaction.response.send_message(f'Test command working! Member: {member.name}', ephemeral=True)
 
-async def setup(bot):
-    bot.add_cog(Test(bot))
+def setup(client):
+    client.add_cog(Test(client))

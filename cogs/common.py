@@ -41,5 +41,5 @@ class Common(commands.Cog):
         else:
             await ctx.send('You are not in a voice channel.')
 
-async def setup(bot):
-    bot.add_cog(Common(bot))
+def setup(client):
+    client.add_cog(Common(client))

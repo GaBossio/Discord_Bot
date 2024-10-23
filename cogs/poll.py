@@ -1,11 +1,30 @@
 import nextcord as discord
+from nextcord import Interaction, SlashOption
 from nextcord.ext import commands
-
 import asyncio
+from keys import TEST_GUILD_ID
 
 class Poll(commands.Cog):
     def __init__(self, client):
         self.client = client
+
+    @discord.slash_command(name="yesnopoll", description="Create a Yes or No poll", guild_ids=[TEST_GUILD_ID])
+    async def yes_no_poll(self, interaction: discord.Interaction, question: str):
+        # Create a poll embed
+        embed = discord.Embed(title="Poll", description=question, color=discord.Color.blue())
+        embed.add_field(name="Options", value="✅ Yes\n❌ No", inline=False)
+        await interaction.response.send_message(embed=embed)
+
+        # Fetch the sent message
+        poll_message = await interaction.original_message()  # Get the original response message
+        print(poll_message.id)
+
+        # Add reactions to the poll message
+        try:
+            await poll_message.add_reaction("✅")
+            await poll_message.add_reaction("❌")
+        except Exception as e:
+            print(f"Error adding reactions: {e}")
 
     @commands.command()
     async def poll(self, ctx, *, question: str):
@@ -19,59 +38,14 @@ class Poll(commands.Cog):
         # Send the embed message
         message = await ctx.send(embed=embed)
 
-        # Add reactions for voting
-        await message.add_reaction('👍')
-        await message.add_reaction('👎')
+        # Add reactions for voting with error handling
+        try:
+            await message.add_reaction('👍')
+            await asyncio.sleep(1)  # Wait for a second to avoid rate limits
+            await message.add_reaction('👎')
+        except discord.HTTPException as e:
+            print(f"Failed to add reaction: {e}")
 
-        # Count the members in the voice channel
-        if ctx.author.voice:
-            voice_channel = ctx.author.voice.channel
-            total_members = len(voice_channel.members)
-            required_votes = total_members // 2  # Calculate half of the voice channel members
-        else:
-            await ctx.send('You are not in a voice channel, so the poll will run without a user count.')
-            total_members = 0
-            required_votes = 0
 
-        # Dictionary to keep track of votes
-        votes = {'👍': 0, '👎': 0}
-
-        # Wait for votes for 1 minute or until half have voted
-        timeout = 60
-        end_poll = False
-
-        while not end_poll:
-            try:
-                # Wait for a reaction
-                reaction, user = await self.client.wait_for(
-                    'reaction_add',
-                    timeout=timeout,
-                    check=lambda r, u: u != self.client.user and r.message.id == message.id
-                )
-                if str(reaction.emoji) in votes:
-                    votes[str(reaction.emoji)] += 1
-
-                # Check if half of the voice channel members have voted
-                if total_members > 0 and votes[str(reaction.emoji)] >= required_votes:
-                    end_poll = True
-
-            except asyncio.TimeoutError:
-                # If the timeout is reached, end the poll
-                end_poll = True
-
-        # Count the votes
-        thumbs_up = votes['👍']
-        thumbs_down = votes['👎']
-
-        # Create results embed
-        results_embed = discord.Embed(
-            title='Poll Results',
-            description=f'**{question}**\n👍: {thumbs_up} votes\n👎: {thumbs_down} votes',
-            color=discord.Color.green()
-        )
-
-        # Send results
-        await ctx.send(embed=results_embed)
-
-async def setup(bot):
-    bot.add_cog(Poll(bot))
+def setup(client):
+    client.add_cog(Poll(client))
