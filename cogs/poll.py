@@ -5,6 +5,7 @@ import os
 import random
 
 import nextcord as discord
+from nextcord import Interaction, Member, SlashOption
 from nextcord.ext import commands
 
 from keys import TEST_GUILD_ID
@@ -112,6 +113,64 @@ class Poll(commands.Cog):
             return f"Error: {e}"
         except json.JSONDecodeError as e:
             return f"Error decoding JSON: {e}"
+
+
+
+    @discord.slash_command(
+            name='poll',
+            description='Create a poll with up to 5 options. Defaults to a Yes/No poll if no options are provided.',
+            guild_ids=[TEST_GUILD_ID]
+    )
+    async def poll(
+            self,
+            interaction: Interaction,
+            question: str = SlashOption(description="The poll question", required=True),
+            option1: str = SlashOption(description="First option (default: Yes)", required=False),
+            option2: str = SlashOption(description="Second option (default: No)", required=False),
+            option3: str = SlashOption(description="Third option", required=False),
+            option4: str = SlashOption(description="Fourth option", required=False),
+            option5: str = SlashOption(description="Fifth option", required=False)
+        ):
+
+            # Collect the options into a list, filtering out None values (unused options)
+            options = [option for option in [option1, option2, option3, option4, option5] if option]
+
+            # If no options are provided, default to a Yes/No poll
+            if not options:
+                # Create an embed for the poll
+                embed = discord.Embed(
+                    title="Encuesta",
+                    description=question,
+                    color=discord.Color.blue()
+                )
+                # Send the poll as an embed
+                poll_message = await interaction.channel.send(embed=embed)
+                await poll_message.add_reaction("✅")
+                await poll_message.add_reaction("❌")
+                return
+
+            # List of reactions to use for the poll
+            reactions = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]  # Emoji reactions for up to 5 options
+
+            # Create an embed for the poll
+            embed = discord.Embed(
+                title="Encuesta",
+                description=question,
+                color=discord.Color.blue()
+            )
+
+
+            for i, option in enumerate(options):
+                embed.add_field(name=f"", value=f"{reactions[i]} {option}", inline=False)
+
+            # Send the poll as an embed
+            poll_message = await interaction.channel.send(embed=embed)
+
+            # Add reactions to the poll message for voting
+            for i in range(len(options)):
+                await poll_message.add_reaction(reactions[i])
+
+            print("DEBUG: Poll created successfully")
 
 
 def setup(client):
