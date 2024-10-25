@@ -1,8 +1,9 @@
 import nextcord as discord
-from nextcord import Interaction, Member, SlashOption
+from nextcord import Interaction, SlashOption
 from nextcord.ext import commands
 
 from keys import TEST_GUILD_ID
+
 
 class Common(commands.Cog):
     def __init__(self, client):
@@ -18,32 +19,16 @@ class Common(commands.Cog):
     async def hello(self, ctx):
         await ctx.send('Hello!')
 
-    @commands.command()
-    async def join(self, ctx):
-        if ctx.author.voice:
-            channel = ctx.author.voice.channel
-            await channel.connect()
-        else:
-            await ctx.send('You are not in a voice channel.')
-
-    @commands.command()
-    async def leave(self, ctx):
-        if ctx.voice_client:
-            await ctx.voice_client.disconnect()
-        else:
-            await ctx.send('I am not in a voice channel.')
-
-
     @discord.slash_command(
         name='clear',
         description='Delete a number of messages in the channel. Optionally, delete messages from a specific user.',
         guild_ids=[TEST_GUILD_ID]
     )
     async def clear(
-        self,
-        interaction: Interaction,
-        cantidad: int = SlashOption(description="Number of messages to delete", required=True),
-        miembro: discord.Member = SlashOption(description="Delete messages from this user only", required=False)
+            self,
+            interaction: Interaction,
+            cantidad: int = SlashOption(description="Number of messages to delete", required=True),
+            miembro: discord.Member = SlashOption(description="Delete messages from this user only", required=False)
     ):
         def check(message):
             return not miembro or message.author == miembro
@@ -62,7 +47,6 @@ class Common(commands.Cog):
             await ctx.send(f'There are {member_count} members in {voice_channel.name}.')
         else:
             await ctx.send('You are not in a voice channel.')
-
 
 
 def setup(client):

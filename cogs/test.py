@@ -1,6 +1,7 @@
 import nextcord as discord
 from nextcord import Interaction, Member, SlashOption
 from nextcord.ext import commands
+from nextcord import FFmpegPCMAudio
 
 from keys import TEST_GUILD_ID
 
@@ -21,8 +22,19 @@ class Test(commands.Cog):
         description='Test command',
         guild_ids=[TEST_GUILD_ID]
     )
-    async def test(self, interaction: Interaction, member: Member = SlashOption(description="Select a member")):
+    async def test(self, interaction: Interaction,
+                   member: Member = SlashOption(description="Select a member", required=False),
+                   option1: str = SlashOption(description="First option", required=False, choices=['Option 1', 'Option 2']),
+                   ):
         await interaction.response.send_message(f'Test command working! Member: {member.name}', ephemeral=True)
+
+        if interaction.user.voice:
+            channel = interaction.user.voice.channel
+            voice = await channel.connect()
+            source = FFmpegPCMAudio('resources/Counsil.mp3')
+            player = voice.play(source)
+        else:
+            await interaction.send('You are not in a voice channel.')
 
 
 def setup(client):

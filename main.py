@@ -19,7 +19,7 @@ bot = commands.Bot(command_prefix='!', owner_id=OWNER_ID, intents=intents)
 @bot.event
 async def on_ready():
     try:
-        activity = discord.Activity(type=discord.ActivityType.listening, name="las acciones del consejo")
+        activity = discord.Activity(type=discord.ActivityType.listening, name="las órdenes del consejo")
         await bot.change_presence(status=discord.Status.online, activity=activity)
     except Exception as e:
         print(f'Error setting status: {e}')
