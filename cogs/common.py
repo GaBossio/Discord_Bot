@@ -1,6 +1,7 @@
 import nextcord as discord
-from nextcord import Interaction, SlashOption
+from nextcord import Interaction, SlashOption, Member
 from nextcord.ext import commands
+from nextcord import FFmpegPCMAudio
 
 from keys import TEST_GUILD_ID
 

@@ -28,5 +28,42 @@
       "No hay consenso entre los fieles, el camino permanece incierto",
       "La votación ha sido insuficiente; quizás los dioses aún no están listos"
     ]
+  },
+  "actions": {
+    "kick": [
+      "Has sido desterrado por decreto del Consejo. Sólo los fieles de corazón puro pueden caminar entre las sombras de este santuario.",
+      "El Consejo ha hablado y tus pasos se desvanecen del templo. Solo aquellos que guardan reverencia encuentran lugar en nuestro círculo.",
+      "Las sendas de los fieles no son para los errantes. Tu exilio es la voluntad del Consejo.",
+      "El Consejo te aleja de su presencia, pues los votos ya no están contigo.",
+      "El sendero del Consejo se estrecha para los indignos. Hoy te apartas de la senda."
+    ],
+    "mute": [
+      "El Consejo dicta silencio. Enmudece, y que la quietud te revele la senda de redención.",
+      "Los murmullos del Consejo te sellan los labios. Que el silencio te guíe a la verdad.",
+      "Que el Consejo te imponga el manto del silencio, solo en la quietud hallarás paz.",
+      "El eco de tus palabras se desvanece; el Consejo decreta silencio.",
+      "Por mandato del Consejo, tu voz se apaga en este sagrado recinto."
+    ],
+    "ban": [
+      "Por orden del Consejo, eres exiliado a las sombras perpetuas. Tu ausencia honrará a los devotos verdaderos.",
+      "El Consejo te destierra de nuestra sagrada morada. La eternidad se torna oscura para los que renuncian al culto.",
+      "Los que desafían el Consejo son arrojados al vacío eterno. Tu regreso jamás será contemplado.",
+      "El abismo te acoge, desterrado por el Consejo. Aquí no hallarás cabida.",
+      "El Consejo ha sellado tu destino: solo la penumbra eterna será testigo de tu caída."
+    ],
+    "member_join": [
+      "Bienvenido, peregrino del Consejo. ¿Traes el espíritu digno para morar en este santuario?",
+      "La puerta del Consejo se abre para ti, recién llegado. Que la penumbra te envuelva y te ilumine a la vez.",
+      "Que los susurros del Consejo te guíen, alma inquieta, en este sendero de sombras.",
+      "El Consejo ha recibido tu presencia. ¿Serás uno con la penumbra?",
+      "Las puertas oscuras del Consejo se abren a una nueva alma. Bienvenido al círculo."
+    ],
+    "member_leave": [
+      "Tu sombra abandona el Consejo, pero la oscuridad recuerda a los que se marchan.",
+      "El Consejo te observa partir, y los ecos de tu ausencia resuenan en sus muros.",
+      "A tu partida, el Consejo se lamenta, pero aquellos que abandonan no siempre encuentran retorno.",
+      "La penumbra del Consejo se densifica en tu ausencia. Partes, pero no sin dejar una sombra.",
+      "Los fieles observan en silencio tu retirada. Que encuentres lo que buscas fuera del Consejo."
+    ]
   }
 }

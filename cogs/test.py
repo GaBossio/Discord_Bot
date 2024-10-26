@@ -1,8 +1,9 @@
 import nextcord as discord
+from nextcord import FFmpegPCMAudio
 from nextcord import Interaction, Member, SlashOption
 from nextcord.ext import commands
-from nextcord import FFmpegPCMAudio
 
+from common_utils import get_random_response
 from keys import TEST_GUILD_ID
 
 
@@ -24,7 +25,8 @@ class Test(commands.Cog):
     )
     async def test(self, interaction: Interaction,
                    member: Member = SlashOption(description="Select a member", required=False),
-                   option1: str = SlashOption(description="First option", required=False, choices=['Option 1', 'Option 2']),
+                   option1: str = SlashOption(description="First option", required=False,
+                                              choices=['Option 1', 'Option 2']),
                    ):
         await interaction.response.send_message(f'Test command working! Member: {member.name}', ephemeral=True)
 
@@ -35,6 +37,11 @@ class Test(commands.Cog):
             player = voice.play(source)
         else:
             await interaction.send('You are not in a voice channel.')
+
+    @commands.command()
+    async def test(self, ctx, category: str, subcategory: str):
+        response = get_random_response(category, subcategory)
+        await ctx.send(response)
 
 
 def setup(client):
