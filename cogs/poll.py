@@ -1,12 +1,11 @@
 import asyncio
 import datetime
-import os
 
 import nextcord as discord
-from nextcord import Interaction, SlashOption
+from nextcord import SlashOption
 from nextcord.ext import commands
 
-from common_utils import get_random_response
+from utils_common import get_random_response, get_resource_path, CustomContext
 from keys import TEST_GUILD_ID
 
 
@@ -14,8 +13,13 @@ class Poll(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @discord.slash_command(name="mute", description="Create a Yes or No poll", guild_ids=[TEST_GUILD_ID])
-    async def yes_no_poll(self, interaction: discord.Interaction, member: discord.Member, duration: int = 60):
+    @discord.slash_command(name="mute", description="Crea una votación para silenciar a un miembro",
+                           guild_ids=[TEST_GUILD_ID])
+    async def mute_poll(self, interaction: discord.Interaction,
+                        member: discord.Member = SlashOption(description="Miembro a silenciar", required=True),
+                        duration: int = SlashOption(description="Duración de la votación (en segundos)",
+                                                    required=False),
+                        silenciado: bool = SlashOption(description="Evitar que se reproduzca música", required=False)):
         # Get the voice channel where the user is connected
         user = interaction.user
         voice_channel = user.voice.channel if user.voice else None
@@ -39,14 +43,16 @@ class Poll(commands.Cog):
         embed = discord.Embed(title="Se solicita al Consejo", description=get_random_response("poll_responses", "call"),
                               color=discord.Color.dark_purple())
 
-        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        image = get_random_response("images", "council")
+        thumbnail = get_random_response("images", "member")
+
         # Prepare the files
         files = [
-            discord.File(os.path.join(base_dir, "resources", "consejo1.png"), filename='consejo1.png'),
-            discord.File(os.path.join(base_dir, "resources", "call1.png"), filename='call1.png')
+            discord.File(get_resource_path(thumbnail), filename=thumbnail),
+            discord.File(get_resource_path(image), filename=image)
         ]
-        embed.set_thumbnail(url='attachment://consejo1.png')
-        embed.set_image(url='attachment://call1.png')
+        embed.set_thumbnail(url=f'attachment://{thumbnail}')
+        embed.set_image(url=f'attachment://{image}')
 
         embed.add_field(name="En esta congregación",
                         value=f"Se pondrá en la balanza el destino de **{member.display_name}**.\nQue los dioses estén de tu lado...",
@@ -65,6 +71,16 @@ class Poll(commands.Cog):
         except Exception as e:
             print(f"Error adding reactions: {e}")
             return
+
+        # Check if the bot is muted
+        if not silenciado:
+            # Get the `play` command from the Music cog
+            play_command = self.client.get_command("play_now")
+            ctx = CustomContext(interaction)
+            if play_command:
+                await play_command(ctx, 'Council', 'True')  # Call the play command with context and arguments
+            else:
+                print("Play command not found.")
 
         # Check for votes
         def check(reaction, user):
@@ -99,59 +115,6 @@ class Poll(commands.Cog):
         except asyncio.TimeoutError:
             await interaction.followup.send(get_random_response("poll_responses", "mute_neutral"))
 
-    @discord.slash_command(
-        name='poll',
-        description='Create a poll with up to 5 options. Defaults to a Yes/No poll if no options are provided.',
-        guild_ids=[TEST_GUILD_ID]
-    )
-    async def poll(
-            self,
-            interaction: Interaction,
-            question: str = SlashOption(description="The poll question", required=True),
-            option1: str = SlashOption(description="First option (default: Yes)", required=False),
-            option2: str = SlashOption(description="Second option (default: No)", required=False),
-            option3: str = SlashOption(description="Third option", required=False),
-            option4: str = SlashOption(description="Fourth option", required=False),
-            option5: str = SlashOption(description="Fifth option", required=False)
-    ):
 
-        # Collect the options into a list, filtering out None values (unused options)
-        options = [option for option in [option1, option2, option3, option4, option5] if option]
-
-        # If no options are provided, default to a Yes/No poll
-        if not options:
-            # Create an embed for the poll
-            embed = discord.Embed(
-                title="Encuesta",
-                description=question,
-                color=discord.Color.blue()
-            )
-            # Send the poll as an embed
-            poll_message = await interaction.channel.send(embed=embed)
-            await poll_message.add_reaction("✅")
-            await poll_message.add_reaction("❌")
-            return
-
-        # List of reactions to use for the poll
-        reactions = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]  # Emoji reactions for up to 5 options
-
-        # Create an embed for the poll
-        embed = discord.Embed(
-            title="Encuesta",
-            description=question,
-            color=discord.Color.blue()
-        )
-
-        for i, option in enumerate(options):
-            embed.add_field(name=f"", value=f"{reactions[i]} {option}", inline=False)
-
-        # Send the poll as an embed
-        poll_message = await interaction.channel.send(embed=embed)
-
-        # Add reactions to the poll message for voting
-        for i in range(len(options)):
-            await poll_message.add_reaction(reactions[i])
-
-
-def setup(client):
+def setup(client, db):
     client.add_cog(Poll(client))

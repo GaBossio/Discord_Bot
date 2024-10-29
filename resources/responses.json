@@ -64,6 +64,53 @@
       "A tu partida, el Consejo se lamenta, pero aquellos que abandonan no siempre encuentran retorno.",
       "La penumbra del Consejo se densifica en tu ausencia. Partes, pero no sin dejar una sombra.",
       "Los fieles observan en silencio tu retirada. Que encuentres lo que buscas fuera del Consejo."
+    ],
+    "role_add": [
+      "El Consejo te ha concedido un nuevo título, un ascenso en tu senda de devoción.",
+      "Te has ganado el favor del Consejo; con este rol vienes a ocupar un lugar entre los más fieles.",
+      "Tu espíritu ha ascendido en la jerarquía sagrada. Honra al Consejo en cada acto.",
+      "El Consejo te eleva; lleva este rol como una llama en la oscuridad.",
+      "Los votos se han pronunciado, y con ello te has ganado el ascenso. El Consejo confía en ti."
+    ],
+    "role_remove": [
+      "El Consejo retira su favor; un rol se desvanece, como las sombras al amanecer.",
+      "Despojado por mandato del Consejo, vuelve a la senda y recobra tu favor en silencio.",
+      "El Consejo te degrada, tu posición entre los fieles ha sido revisada. Persevera.",
+      "El rol que portabas ya no te corresponde; enmienda tu senda o busca redención.",
+      "El Consejo ha hablado, y tu jerarquía ha cambiado. Que esta pérdida te inspire humildad."
+    ],
+    "duel_accept": [
+      "El Consejo observa con expectación tu aceptación. Que este duelo decida el digno.",
+      "Se llama al combate; el Consejo ha sancionado este duelo. Prepárate.",
+      "El desafío ha sido aceptado bajo la mirada del Consejo. Que el duelo comience.",
+      "Tu aceptación resuena en los salones del Consejo. Solo uno prevalecerá.",
+      "Que los osados sean bienvenidos al duelo, por decreto del Consejo."
+    ],
+    "duel_reject": [
+      "El Consejo ha recibido tu rechazo. La contienda no tendrá lugar.",
+      "El duelo es rechazado. A veces, el honor del Consejo yace en la prudencia.",
+      "El Consejo ha decidido en contra del duelo; el desafío se desvanece en las sombras.",
+      "Con sabiduría, el duelo es rechazado. El Consejo acepta tu decisión.",
+      "Tu negativa es escuchada por el Consejo, y así se evita el derramamiento."
+    ],
+    "duel_timeout": [
+      "El Consejo suspira, pues el duelo ha caído en el olvido. El desafío no ha sido respondido.",
+      "El tiempo ha expirado, y el duelo se disuelve en la penumbra. El Consejo permanece en silencio.",
+      "El Consejo aguarda en vano, pero el duelo no ha sido atendido.",
+      "Que la falta de respuesta sea vista como señal. El Consejo desiste del desafío.",
+      "El eco del duelo se desvanece en la oscuridad; el Consejo retira su convocatoria."
+    ]
+  },
+  "images": {
+    "council": [
+      "council_00.png",
+      "council_01.png",
+      "council_02.png"
+    ],
+    "member": [
+      "m_patricio.png",
+      "m_bobesponja.png",
+      "m_calamardo.png"
     ]
   }
 }
