@@ -4,26 +4,24 @@ import nextcord as discord
 from nextcord import ActivityType
 from nextcord.ext import commands
 
-from utils_db import Database
+from utils_db import get_db
 # Import keys
 from keys import DISCORD_TOKEN, OWNER_ID
+
+# Create an instance of the Database
+db = get_db()
 
 # Setup intents
 intents = discord.Intents.all()
 
 # Create the bot instance
-bot = commands.Bot(command_prefix='!', owner_id=OWNER_ID, intents=intents)
-
-# Create an instance of the Database
-db = Database()
-
+bot = commands.Bot(command_prefix=db.fetch_prefix, owner_id=OWNER_ID, intents=intents)
 
 @bot.event
 async def on_ready():
     try:
         activity = discord.Activity(type=ActivityType.listening, name="las órdenes del consejo")
         await bot.change_presence(status=discord.Status.online, activity=activity)
-        db.connect()
     except Exception as e:
         print(f'Error setting status: {e}')
     print('-------------------------------------------')
